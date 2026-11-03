@@ -1,0 +1,12 @@
+{
+  "name": "xatuer-select-food",
+  "version": "2.0.0",
+  "private": true,
+  "description": "西安工业大学校园觅食工具与社区本机体验版",
+  "scripts": {
+    "start": "node scripts/serve.cjs",
+    "test": "node --test --test-reporter=tap tests/*.test.cjs",
+    "check": "node scripts/check.cjs"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+# 原始实拍保留在本机，网页使用压缩后的副本。
+图片/
+# 本机个人记录不能进入开源仓库。
+xatuer-backup-*.json
+.Codex/
+# 仅供本机衔接工作的需求与对话笔记，不属于公开产品文档。
+docs/UPGRADE.md
