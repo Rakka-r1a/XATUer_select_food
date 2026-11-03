@@ -1,6 +1,6 @@
 # XATUer 2.0 小范围测试
 
-测试入口：[XATUer 今天吃什么](https://m0k1se.github.io/XATUer_select_food/)。无需注册，也不需要安装应用。
+测试入口：[XATUer 今天吃什么](https://rakka-r1a.github.io/XATUer_select_food/)。无需注册，也不需要安装应用。
 
 这是选餐工具与个人手记的测试版，当前没有真实账号、公开动态或多人评论。手记和收藏只保存在自己的浏览器里。
 
@@ -16,7 +16,7 @@
 
 ## 怎么反馈
 
-可以把结果直接告诉项目维护者，或到 [GitHub Issues](https://github.com/M0k1se/XATUer_select_food/issues) 提交。建议包含：
+可以把结果直接告诉项目维护者，或到 [GitHub Issues](https://github.com/Rakka-r1a/XATUer_select_food/issues) 提交。建议包含：
 
 - 手机 / 电脑型号、系统和浏览器名称。
 - 使用校园网、Wi-Fi 还是手机流量。

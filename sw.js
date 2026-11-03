@@ -2,7 +2,8 @@
 const CACHE_PREFIX = `xatuer-${self.registration.scope}-`;
 // const CACHE = `${CACHE_PREFIX}v2-20261103-1`; // old: 楼层未确认版本。
 // const CACHE = `${CACHE_PREFIX}v2-20261103-floors-1`; // old: 含人物图片的缓存版本。
-const CACHE = `${CACHE_PREFIX}v2-20261103-clean-1`; // [FIX 2026.11.03] 让去人物图片使用新的离线缓存。
+// const CACHE = `${CACHE_PREFIX}v2-20261103-clean-1`; // old: 旧署名页面的离线版本。
+const CACHE = `${CACHE_PREFIX}v2-20261104-rakka-1`; // [FIX 2026.11.04] 更新离线页面的公开署名和项目链接。
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js','./scripts/core.js','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 未对资料文件指定版本。
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-floors-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 原图片资料版本。
 const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-clean-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.03] 与页面的去人物资料版本一致。

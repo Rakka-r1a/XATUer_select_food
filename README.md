@@ -4,7 +4,7 @@
 
 西安工业大学校园觅食小工具。选一家，去吃饭。
 
-**[打开网站](https://m0k1se.github.io/XATUer_select_food/) · [反馈问题](https://github.com/M0k1se/XATUer_select_food/issues) · [内测指南](docs/TESTING.md)**
+**[打开网站](https://rakka-r1a.github.io/XATUer_select_food/) · [反馈问题](https://github.com/Rakka-r1a/XATUer_select_food/issues) · [内测指南](docs/TESTING.md)**
 
 当前版本：**2.0 小范围测试版**。无需注册，手机和电脑浏览器均可使用。
 
@@ -38,7 +38,7 @@
 
 一组可能包含相邻招牌，不等同于一个已核实的独立经营档口；同店不同角度的照片已合并。少数模糊店名标为待核对。照片不代表此刻正在营业，暂不提供价格、评分或营业时间。
 
-发现错名、错楼层、重复或已关闭的店，欢迎通过 [GitHub Issues](https://github.com/M0k1se/XATUer_select_food/issues) 反馈。说明店名和正确情况即可；无需上传自己的私人备份。
+发现错名、错楼层、重复或已关闭的店，欢迎通过 [GitHub Issues](https://github.com/Rakka-r1a/XATUer_select_food/issues) 反馈。说明店名和正确情况即可；无需上传自己的私人备份。
 
 网页图片中，42 张已去除人物，2 张原本无人；另 2 张仍待修补，暂显示“图片修补中”，避免展示人物。被人物遮挡的局部为 AI 修补画面，招牌和菜单优先保留原图；修补区域不作为核实店内细节的依据。原始照片保留在维护者本地，不随网页发布。
 
@@ -57,7 +57,7 @@
 需要 **Node.js 20 或更新版本**。项目没有第三方 npm 依赖。
 
 ```sh
-git clone https://github.com/M0k1se/XATUer_select_food.git
+git clone https://github.com/Rakka-r1a/XATUer_select_food.git
 cd XATUer_select_food
 npm start
 ```
@@ -99,7 +99,7 @@ docs/TESTING.md           小范围测试指南
 
 先依据内测反馈修正档口资料和选餐体验，再逐步考虑学校周边小吃、真实账号、公开评价与校园动态。多人社区需要后端及相应的数据管理能力；当前版本不包含这些功能，也尚未提供 APK。
 
-本项目由 **[M0k1se](https://github.com/M0k1se)** 发起，与学校官方无隶属关系。复用时请保留作者署名并注明 [项目来源](https://github.com/M0k1se/XATUer_select_food)。
+本项目由 **[Rakka](https://github.com/Rakka-r1a)** 发起，与学校官方无隶属关系。复用时请保留作者署名并注明 [项目来源](https://github.com/Rakka-r1a/XATUer_select_food)。
 
 <!-- old: 原项目介绍，保留原作者的复用与署名要求。
 # XATUer-s_select_food
