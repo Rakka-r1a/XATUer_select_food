@@ -18,7 +18,8 @@ test('用户彩框标注完整覆盖三层，合并照片无楼层冲突，真�
   assert.equal(C.filterStalls(D.stalls,{floor:'unknown'}).length,0);
   for (const stall of D.stalls) {
     for (const photo of stall.photos) {
-      const name=photo.split('/').pop().replace(/\.jpg$/,'');
+      // const name=photo.split('/').pop().replace(/\.jpg$/,''); // old: 未处理图片版本参数。
+      const name=photo.split(/[?#]/)[0].split('/').pop().replace(/\.jpg$/,''); // [FIX 2026.11.03] 楼层对应原照片标识。
       assert.equal(D.photoFloors[name],stall.floor,`${stall.name} 的不同角度必须属于同层`);
     }
   }

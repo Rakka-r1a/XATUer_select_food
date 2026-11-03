@@ -14,7 +14,8 @@ for(const file of files) {
     if(file.endsWith('.js')) new vm.Script(text,{filename:file});
   }
 }
-for(const photo of D.photos) assert.ok(fs.existsSync(path.join(root,photo)),`缺少照片：${photo}`);
+// for(const photo of D.photos) assert.ok(fs.existsSync(path.join(root,photo)),`缺少照片：${photo}`); // old: 查询参数误作文件名。
+for(const photo of D.photos) assert.ok(fs.existsSync(path.join(root,photo.split(/[?#]/)[0])),`缺少照片：${photo}`); // [FIX 2026.11.03] 校验带版本的图片路径。
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/<!--[\s\S]*?-->/g,'');
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(new Set(ids).size,ids.length,'页面存在重复标识');
@@ -27,6 +28,7 @@ for(const m of html.matchAll(/(?:src|href)="([^"#]+)"/g)) {
   assert.ok(fs.existsSync(path.join(root,m[1].split(/[?#]/)[0])),`页面路径无效：${m[1]}`); // [FIX 2026.11.03] 查询参数不属于磁盘文件名。
 }
 JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
-const imageBytes=D.photos.reduce((n,file)=>n+fs.statSync(path.join(root,file)).size,0);
+// const imageBytes=D.photos.reduce((n,file)=>n+fs.statSync(path.join(root,file)).size,0); // old: 图片路径没有版本。
+const imageBytes=D.photos.reduce((n,file)=>n+fs.statSync(path.join(root,file.split(/[?#]/)[0])).size,0); // [FIX 2026.11.03] 按实际文件统计体积。
 console.log(`[OK] 语法、UTF-8、页面节点、相对路径、清单与 ${D.photos.length} 张图片通过检查`);
 console.log(`[OK] ${D.stalls.length} 组实拍招牌，网页图片 ${(imageBytes/1024/1024).toFixed(2)} MB`);

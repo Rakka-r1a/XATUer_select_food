@@ -1,9 +1,11 @@
 /* [FIX 2026.11.03] 缓存范围限定本项目；不删除同域其他项目的缓存。 */
 const CACHE_PREFIX = `xatuer-${self.registration.scope}-`;
 // const CACHE = `${CACHE_PREFIX}v2-20261103-1`; // old: 楼层未确认版本。
-const CACHE = `${CACHE_PREFIX}v2-20261103-floors-1`; // [FIX 2026.11.03] 更新楼层资料的离线版本。
+// const CACHE = `${CACHE_PREFIX}v2-20261103-floors-1`; // old: 含人物图片的缓存版本。
+const CACHE = `${CACHE_PREFIX}v2-20261103-clean-1`; // [FIX 2026.11.03] 让去人物图片使用新的离线缓存。
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js','./scripts/core.js','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 未对资料文件指定版本。
-const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-floors-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.03] 预缓存与页面使用相同的资料版本。
+// const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-floors-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 原图片资料版本。
+const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-clean-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.03] 与页面的去人物资料版本一致。
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)));
 });

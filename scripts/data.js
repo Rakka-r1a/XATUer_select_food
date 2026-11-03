@@ -72,13 +72,15 @@
   const data = {
     updatedAt: '2026-11-03',
     canteens: [{ id: 'big', name: '大食堂', status: 'listed' }, { id: 'small', name: '小食堂', status: 'closed' }],
-    photos: photos.map(name => `assets/stalls/${name}.jpg`),
+    // photos: photos.map(name => `assets/stalls/${name}.jpg`), // old: 可能命中含人物的旧缓存。
+    photos: photos.map(name => `assets/stalls/${name}.jpg?v=20261103-clean-1`), // [FIX 2026.11.03] 使用去人物后的图片版本。
     photoFloors,
     stalls: rows.map(([name,category,indexes,signs,needsReview], index) => ({
       id: `stall-${String(index+1).padStart(3,'0')}`, name, category, signs, needsReview,
       // canteen: 'big', floor: null, status: 'listed', tags: signs.split(' / '), // old: 尚未收到楼层标注。
       canteen: 'big', floor: photoFloors[photos[indexes[0]-1]], status: 'listed', tags: signs.split(' / '), // [FIX 2026.11.03] 使用用户确认的楼层。
-      photos: indexes.map(n => `assets/stalls/${photos[n-1]}.jpg`)
+      // photos: indexes.map(n => `assets/stalls/${photos[n-1]}.jpg`) // old: 未区分图片版本。
+      photos: indexes.map(n => `assets/stalls/${photos[n-1]}.jpg?v=20261103-clean-1`) // [FIX 2026.11.03] 详情、随机与列表共用新版图片。
     }))
   };
   if (typeof module === 'object' && module.exports) module.exports = data;
