@@ -148,7 +148,9 @@
   <!-- [FIX 2026.11.03] 刷新去人物图片资料，避开旧缓存。 -->
   <!-- old: <script defer src="scripts/data.js?v=20261103-clean-1"></script> -->
   <!-- [FIX 2026.11.04] 使用纠正小笼包招牌后的资料，避开旧版离线缓存。 -->
-  <script defer src="scripts/data.js?v=20261104-xiaolongbao-1"></script>
+  <!-- old: <script defer src="scripts/data.js?v=20261104-xiaolongbao-1"></script> -->
+  <!-- [FIX 2026.11.04] 发布原图全量复核与两轮人工确认后的招牌资料。 -->
+  <script defer src="scripts/data.js?v=20261104-sign-audit-1"></script>
   <script defer src="scripts/core.js?v=20261103-floors-1"></script>
   <script defer src="scripts/app.js"></script>
 </head>
@@ -190,7 +192,9 @@
         <div class="catalog-result"><span id="search-count" aria-live="polite"></span><button class="text-button" data-action="draw">在这些档口中随机选</button></div>
         <div id="discover-stalls" class="stall-grid"></div>
         <!-- old: 楼层与不清晰的店名待核对。 -->
-        <div class="catalog-note"><span data-icon="info"></span><p>招牌来自实拍照片，部分照片含相邻窗口，暂按招牌区域分组。楼层已按提供的彩框标注确认；不清晰的店名仍待核对。照片不代表此刻正在营业。小食堂已关闭，不参与选择。</p></div>
+        <!-- old: <div class="catalog-note"><span data-icon="info"></span><p>招牌来自实拍照片，部分照片含相邻窗口，暂按招牌区域分组。楼层已按提供的彩框标注确认；不清晰的店名仍待核对。照片不代表此刻正在营业。小食堂已关闭，不参与选择。</p></div> -->
+        <!-- [FIX 2026.11.04] 说明招牌复核与仍按照片区域整理的边界。 -->
+        <div class="catalog-note"><span data-icon="info"></span><p>招牌已按原图及两轮人工确认复核，楼层依据彩框标注。部分照片仍含相邻窗口，详情与搜索可查招牌名称。照片不代表此刻正在营业。小食堂已关闭，不参与选择。</p></div>
         <!-- old: <p class="inline-hint">图片已去除人物，原先遮挡的局部为修补画面。</p> -->
         <!-- [FIX 2026.11.03] 两张生成失败的照片暂用占位，明确当前状态。 -->
         <p class="inline-hint">图片已去除人物，原先遮挡的局部为修补画面；另两张照片暂显示“图片修补中”。</p>
@@ -215,7 +219,9 @@
     <aside class="right-rail" aria-label="觅食公告">
       <section class="rail-card campus-card"><div class="rail-symbol" data-icon="bowl"></div><h2>校园里的<br>每一口日常。</h2><p>从“随便吃点”，<br>到“今天就吃这家”。</p><span class="campus-chip">西安工业大学</span></section>
       <!-- old: 楼层信息正在补全。 -->
-      <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 18 组、三楼 11 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section>
+      <!-- old: <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 18 组、三楼 11 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section> -->
+      <!-- [FIX 2026.11.04] 同步拆分后的楼层分组数量。 -->
+      <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 20 组、三楼 12 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section>
       <p class="rail-footnote">一个由学生发起的开源小项目。<br>与学校官方无隶属关系。</p>
     </aside>
   </div>

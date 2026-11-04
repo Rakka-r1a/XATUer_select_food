@@ -4,11 +4,13 @@ const CACHE_PREFIX = `xatuer-${self.registration.scope}-`;
 // const CACHE = `${CACHE_PREFIX}v2-20261103-floors-1`; // old: 含人物图片的缓存版本。
 // const CACHE = `${CACHE_PREFIX}v2-20261103-clean-1`; // old: 旧署名页面的离线版本。
 // const CACHE = `${CACHE_PREFIX}v2-20261104-rakka-1`; // old: 含错误小笼包招牌的资料版本。
-const CACHE = `${CACHE_PREFIX}v2-20261104-xiaolongbao-1`; // [FIX 2026.11.04] 刷新用户纠正后的档口名称。
+// old: const CACHE = `${CACHE_PREFIX}v2-20261104-xiaolongbao-1`;
+const CACHE = `${CACHE_PREFIX}v2-20261104-sign-audit-1`; // [FIX 2026.11.04] 更新全量招牌复核版本的离线缓存。
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js','./scripts/core.js','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 未对资料文件指定版本。
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-floors-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 原图片资料版本。
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-clean-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 旧版档口资料入口。
-const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261104-xiaolongbao-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.04] 与页面使用相同的纠错资料版本。
+// old: const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261104-xiaolongbao-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.04] 与页面使用相同的纠错资料版本。
+const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261104-sign-audit-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.04] 与页面使用相同的纠错资料版本。
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)));
 });

@@ -14,7 +14,8 @@ test('真实招牌资料覆盖全部照片，标识唯一，关闭的小食堂�
 test('用户彩框标注完整覆盖三层，合并照片无楼层冲突，真实楼层筛选互斥',()=>{
   assert.equal(Object.keys(D.photoFloors).length,46);
   const floorCounts = [1,2,3].map(floor=>C.filterStalls(D.stalls,{floor:String(floor)}).length);
-  assert.deepEqual(floorCounts,[14,18,11]);
+  // old: assert.deepEqual(floorCounts,[14,18,11]);
+  assert.deepEqual(floorCounts,[14,20,12]); // [FIX 2026.11.04] 拆分两处误合并及用户确认不同的面馆。
   assert.equal(C.filterStalls(D.stalls,{floor:'unknown'}).length,0);
   for (const stall of D.stalls) {
     for (const photo of stall.photos) {
@@ -23,7 +24,9 @@ test('用户彩框标注完整覆盖三层，合并照片无楼层冲突，真�
       assert.equal(D.photoFloors[name],stall.floor,`${stall.name} 的不同角度必须属于同层`);
     }
   }
-  for (const [name,floor] of [['骨汤方便面',1],['上海生煎',1],['汉堡工厂',1],['兰州牛肉面',2],['烘焙档口',2],['四季轻食',2],['鲜榨果汁',3],['陕西面 · 拉条子',3],['集市自助小火锅',3]]) {
+  // old: for (const [name,floor] of [['骨汤方便面',1],['上海生煎',1],['汉堡工厂',1],['兰州牛肉面',2],['烘焙档口',2],['四季轻食',2],['鲜榨果汁',3],['陕西面 · 拉条子',3],['集市自助小火锅',3]]) {
+  // [FIX 2026.11.04] 使用复核后的名称检查楼层映射。
+  for (const [name,floor] of [['骨汤方便面',1],['上海生煎包',1],['0090汉堡工厂',1],['兰州牛肉面',2],['麦谷木旗',2],['四季轻食',2],['益哆哆鲜榨果汁',3],['陕西 biangbiang 面 · 拉条子',3],['双程记·集市自助小火锅',3]]) {
     assert.equal(D.stalls.find(stall=>stall.name===name).floor,floor,name);
   }
 });
