@@ -5,7 +5,9 @@ const vm=require('node:vm');
 const assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..');
 const D=require('./data.js');
-const files=['index.html','styles.css','scripts/data.js','scripts/core.js','scripts/app.js','sw.js','manifest.webmanifest','assets/icon.svg','assets/icon-192.png','assets/icon-512.png'];
+// old: const files=['index.html','styles.css','scripts/data.js','scripts/core.js','scripts/app.js','sw.js','manifest.webmanifest','assets/icon.svg','assets/icon-192.png','assets/icon-512.png'];
+// [FIX 2026.11.04] 把弹窗导航模块纳入交付与UTF-8检查。
+const files=['index.html','styles.css','scripts/data.js','scripts/core.js','scripts/dialog-navigation.js','scripts/app.js','sw.js','manifest.webmanifest','assets/icon.svg','assets/icon-192.png','assets/icon-512.png'];
 for(const file of files) {
   assert.ok(fs.existsSync(path.join(root,file)),`缺少文件：${file}`);
   if(!file.endsWith('.png')) {

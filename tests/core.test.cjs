@@ -15,7 +15,8 @@ test('用户彩框标注完整覆盖三层，合并照片无楼层冲突，真�
   assert.equal(Object.keys(D.photoFloors).length,46);
   const floorCounts = [1,2,3].map(floor=>C.filterStalls(D.stalls,{floor:String(floor)}).length);
   // old: assert.deepEqual(floorCounts,[14,18,11]);
-  assert.deepEqual(floorCounts,[14,20,12]); // [FIX 2026.11.04] 拆分两处误合并及用户确认不同的面馆。
+  // old: assert.deepEqual(floorCounts,[14,20,12]);
+  assert.deepEqual(floorCounts,[14,34,12]); // [FIX 2026.11.04] 二楼相邻窗口分别收录，不再作为一整排抽取。
   assert.equal(C.filterStalls(D.stalls,{floor:'unknown'}).length,0);
   for (const stall of D.stalls) {
     for (const photo of stall.photos) {
@@ -79,4 +80,18 @@ test('本机修正不污染公共原始资料，关闭修正立即退出候选�
 test('备份里的恶意日期不会使页面渲染崩溃',()=>{
   const state=C.sanitizeState({version:2,notes:[{text:'bad',time:1e100},{text:'bad',time:-1e100}],history:[{stallId:'a',time:1e100}]},['a']);
   assert.deepEqual(state.notes,[]);assert.deepEqual(state.history,[]);
+});
+
+// [FIX 2026.11.04] 防止相邻窗口再次被塞进同一条目的搜索词，导致看似搜到却无法单独抽取。
+test('二楼冒菜、豆米砂锅、牛肉汤及其他相邻窗口可以独立选取',()=>{
+  const names=['傻得冒冒菜','贵州豆米砂锅','牛肉汤烧饼','四季轻食','擂震子擂椒拌饭','石锅拌饭','拉条子','驴蹄子面','鲜汤小锅菜','骨汤面','卤肉饭','潮汕猪脚饭'];
+  const rows=names.map(name=>D.stalls.find(s=>s.floor===2&&s.name===name));
+  assert.ok(rows.every(Boolean));assert.equal(new Set(rows.map(s=>s.id)).size,names.length);
+  for(const name of ['傻得冒冒菜','贵州豆米砂锅','牛肉汤','擂震子擂椒拌饭','驴蹄子面','鲜汤小锅菜','潮汕猪脚饭']){
+    const found=C.filterStalls(D.stalls,{floor:'2',query:name});
+    assert.equal(found.length,1,name+' 应只命中对应窗口');
+    assert.ok(found[0].name.includes(name));
+    assert.equal(C.drawStall(found).stall.id,found[0].id);
+  }
+  assert.equal(C.filterStalls(D.stalls,{floor:'1',query:'饺子'})[0].id,'stall-026');
 });

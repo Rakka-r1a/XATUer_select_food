@@ -14,7 +14,9 @@ function createServer() {
       if (pathname.endsWith('/')) pathname += 'index.html';
       const filename = path.resolve(root,`.${pathname}`);
       const relative = path.relative(root,filename);
-      if (relative.startsWith('..') || path.isAbsolute(relative) || relative.split(path.sep).some(part=>part.startsWith('.')) || !/^(index\.html|styles\.css|sw\.js|manifest\.webmanifest|assets[\\/]|scripts[\\/](app|core|data)\.js$)/.test(relative)) {
+      // old: if (relative.startsWith('..') || path.isAbsolute(relative) || relative.split(path.sep).some(part=>part.startsWith('.')) || !/^(index\.html|styles\.css|sw\.js|manifest\.webmanifest|assets[\\/]|scripts[\\/](app|core|data)\.js$)/.test(relative)) {
+      // [FIX 2026.11.04] 仅增加公开弹窗导航模块的本机访问许可。
+      if (relative.startsWith('..') || path.isAbsolute(relative) || relative.split(path.sep).some(part=>part.startsWith('.')) || !/^(index\.html|styles\.css|sw\.js|manifest\.webmanifest|assets[\\/]|scripts[\\/](app|core|data|dialog-navigation)\.js$)/.test(relative)) {
         res.writeHead(404); res.end('Not found'); return;
       }
       const content = await fs.readFile(filename);

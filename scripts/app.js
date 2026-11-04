@@ -38,7 +38,13 @@
   let drawTimer = null;
   let toastTimer = null;
   let installPrompt = null;
-  let dialogTrigger = null;
+  // old: let dialogTrigger = null;
+  // [FIX 2026.11.04] 弹窗历史与焦点统一管理，返回手势先关弹窗。
+  const dialogNavigation = window.createFoodDialogNavigation(window, document, dialog => {
+    document.body.classList.add('modal-open');
+    if (dialog.id === 'detail-dialog') currentDetail = $('detail-content').dataset.stallId || '';
+    if (dialog.id === 'draw-dialog' && !drawTimer) renderDraw();
+  });
 
   function toast(message) {
     clearTimeout(toastTimer);
@@ -141,28 +147,36 @@
     }
     document.title = `${({home:'今天吃什么',discover:'逛逛食堂',community:'校园广场',me:'我的觅食日常'})[page]} · XATUer`;
   }
-  function showDialog(dialog) {
-    dialogTrigger = document.activeElement;
-    if (!dialog.open) dialog.showModal();
-    document.body.classList.add('modal-open');
-  }
-  function closeDialog(dialog) { if (dialog.open) dialog.close(); }
+  // old: function showDialog(dialog) {
+  // old: dialogTrigger = document.activeElement;
+  // old: if (!dialog.open) dialog.showModal();
+  // old: document.body.classList.add('modal-open');
+  // old: }
+  // old: function closeDialog(dialog) { if (dialog.open) dialog.close(); }
+  // [FIX 2026.11.04] 打开、关闭共用同一条弹窗历史；关闭返回可等待的结果。
+  function showDialog(dialog) { return dialogNavigation.open(dialog); }
+  function closeDialog(dialog) { return dialogNavigation.close(dialog); }
   for (const dialog of document.querySelectorAll('dialog')) {
     dialog.addEventListener('click', event => {
       const rect = dialog.getBoundingClientRect();
       if (event.target === dialog && (event.clientX<rect.left || event.clientX>rect.right || event.clientY<rect.top || event.clientY>rect.bottom)) closeDialog(dialog);
     });
     dialog.addEventListener('close', () => {
-      if (dialog.id === 'draw-dialog') { clearTimeout(drawTimer); drawTimer = null; }
-      if (dialog.id === 'detail-dialog') currentDetail = '';
+      // old: if (dialog.id === 'draw-dialog') { clearTimeout(drawTimer); drawTimer = null; }
+      if (dialog.id === 'draw-dialog' && !dialog.open) { clearTimeout(drawTimer); drawTimer = null; } // [FIX 2026.11.04] 只清理确已关闭的弹窗。
+      // old: if (dialog.id === 'detail-dialog') currentDetail = '';
+      if (dialog.id === 'detail-dialog' && !dialog.open) currentDetail = ''; // [FIX 2026.11.04] 不覆盖快速重开的详情状态。
       document.body.classList.toggle('modal-open', !!document.querySelector('dialog[open]'));
-      if (dialogTrigger?.isConnected) dialogTrigger.focus();
+      // old: if (dialogTrigger?.isConnected) dialogTrigger.focus();
+      // [FIX 2026.11.04] 由弹窗导航在历史返回结束后恢复焦点，切换弹窗时不抢焦点。
     });
   }
   function renderDetail(id) {
     const stall = activeStall(id);
     if (!stall) return;
     currentDetail = id;
+    // [FIX 2026.11.04] 浏览器前进恢复详情时，重建当前条目标识。
+    $('detail-content').dataset.stallId = id;
     const localNotes = state.notes.filter(note => note.stallId === id);
     const saved = state.favorites.includes(id);
     $('detail-content').innerHTML = `<img id="detail-photo" class="detail-image" src="${stall.photos[0]}" alt="${escape(stall.name)}实拍照片">${stall.photos.length>1?`<div class="detail-thumbs">${stall.photos.map((photo,index)=>`<button data-action="photo" data-photo="${photo}" aria-label="查看第${index+1}张实拍"><img src="${photo}" alt="第${index+1}个角度"></button>`).join('')}</div>`:''}<div class="detail-body"><div class="detail-heading"><h2 id="detail-title">${escape(stall.name)}</h2><button class="button secondary small" data-action="favorite" data-id="${id}" aria-pressed="${saved}">${svg('heart')}${saved?'已收藏':'收藏'}</button></div><p class="detail-location">大食堂 / ${C.floorLabel(stall.floor)} / ${escape(stall.category)}</p><div class="detail-signs">照片中的招牌：${escape(stall.signs)}</div><p class="inline-hint">${stall.status==='closed'?'本机已标记关闭，不参与随机。':'按照片收录，不代表此刻正在营业。'}${stall.needsReview?' 该组名称需要进一步核对。':''} 暂不提供未经确认的价格、评分与营业时间。</p><div class="button-row"><button class="button primary" data-action="choose-direct" data-id="${id}" ${stall.status==='closed'?'disabled':''}>就吃这家</button><button class="button secondary" data-action="write-note" data-id="${id}">记一笔</button></div><details><summary>帮这份资料补充信息（仅本机）</summary><form id="correction-form" class="correction-form"><input type="hidden" name="stallId" value="${id}"><label>招牌名称<input name="name" value="${escape(stall.name)}" maxlength="50" required></label><div class="correction-fields"><label>楼层<select name="floor"><option value="">待确认</option>${[1,2,3].map(n=>`<option value="${n}" ${stall.floor===n?'selected':''}>${n} 楼</option>`).join('')}</select></label><label>本机选择状态<select name="status"><option value="listed" ${stall.status!=='closed'?'selected':''}>保留在随机池</option><option value="closed" ${stall.status==='closed'?'selected':''}>已关闭 / 不再抽取</option></select></label></div><p class="inline-hint">资料修正只影响本浏览器。可在“我的”导出备份，之后用于核对公共档口表。</p><button class="button secondary" type="submit">保存本机修正</button></form></details><section class="detail-notes"><h3>我对这家的手记</h3>${localNotes.length?localNotes.map(note=>`<p class="detail-note">${escape(note.text)}</p>`).join(''):'<p class="inline-hint">还没有相关手记，吃完回来记一笔吧。</p>'}</section></div>`;
@@ -205,7 +219,9 @@
     renderMe();
     if (saved) toast(`记下了，就吃${stall.name}。好好吃饭！`);
   }
-  document.addEventListener('click', event => {
+  // old: document.addEventListener('click', event => {
+  // [FIX 2026.11.04] 先等待弹窗历史关闭，再执行页面跳转。
+  document.addEventListener('click', async event => {
     const button = event.target.closest('[data-action]');
     if (!button || button.disabled) return;
     const { action, id, value } = button.dataset;
@@ -223,9 +239,13 @@
       case 'photo': $('detail-photo').src = button.dataset.photo; break;
       case 'choose-direct': choose(id); break;
       case 'choose-draw': if (currentDraw) choose(currentDraw.id); break;
-      case 'draw-detail': closeDialog($('draw-dialog')); openDetail(id); break;
+      // old: case 'draw-detail': closeDialog($('draw-dialog')); openDetail(id); break;
+      case 'draw-detail': openDetail(id); break; // [FIX 2026.11.04] 切换弹窗复用同一条历史。
+      case 'changelog': showDialog($('changelog-dialog')); break;
+      case 'close-changelog': closeDialog($('changelog-dialog')); break;
       // old: 在 hashchange 触发前向隐藏页面设置焦点，浏览器可能忽略。
-      case 'write-note': closeDialog($('detail-dialog')); location.hash = 'community'; route(); $('note-stall').value = id; $('note-text').focus(); break; // [FIX 2026.11.03] 先显示目标页面。
+      // old: case 'write-note': closeDialog($('detail-dialog')); location.hash = 'community'; route(); $('note-stall').value = id; $('note-text').focus(); break;
+      case 'write-note': await closeDialog($('detail-dialog')); location.hash = 'community'; route(); $('note-stall').value = id; $('note-text').focus(); break; // [FIX 2026.11.04] 历史回退完成后才跳转，避免写手记被退回。
     }
   });
   $('search').addEventListener('input', event => { filters.query = event.target.value; updateFilters(); });
@@ -313,6 +333,8 @@
   window.addEventListener('online',updateConnection); window.addEventListener('offline',updateConnection);
   const hour = new Date().getHours();
   $('greeting').textContent = hour<10?'早上好，吃点好的再出发':hour<14?'到饭点了，今天想吃什么':hour<18?'下午好，给晚饭留点期待':'忙了一天，好好吃顿饭吧';
+  // [FIX 2026.11.04] 页脚随资料日期更新，避免仍显示旧日期。
+  $('data-updated').textContent = `资料更新于 ${D.updatedAt.replaceAll('-','.')}`;
   hydrateIcons(); refresh(); route(); updateConnection();
   if (storageWarning) toast(storageWarning);
   if ('serviceWorker' in navigator && ['https:','http:'].includes(location.protocol)) {
