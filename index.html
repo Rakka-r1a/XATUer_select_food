@@ -142,7 +142,9 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
+  <!-- old: <link rel="stylesheet" href="styles.css"> -->
+  <!-- [FIX 2026.11.04] 使用本次小更新资源，避开旧版离线缓存。 -->
+  <link rel="stylesheet" href="styles.css?v=20261104-patch-1">
   <!-- old: scripts/data.js 与 scripts/core.js 未加版本参数，旧离线缓存可能保留待确认楼层。 -->
   <!-- old: <script defer src="scripts/data.js?v=20261103-floors-1"></script> -->
   <!-- [FIX 2026.11.03] 刷新去人物图片资料，避开旧缓存。 -->
@@ -150,9 +152,14 @@
   <!-- [FIX 2026.11.04] 使用纠正小笼包招牌后的资料，避开旧版离线缓存。 -->
   <!-- old: <script defer src="scripts/data.js?v=20261104-xiaolongbao-1"></script> -->
   <!-- [FIX 2026.11.04] 发布原图全量复核与两轮人工确认后的招牌资料。 -->
-  <script defer src="scripts/data.js?v=20261104-sign-audit-1"></script>
+  <!-- old: <script defer src="scripts/data.js?v=20261104-sign-audit-1"></script> -->
+  <!-- [FIX 2026.11.04] 使用本次小更新资源，避开旧版离线缓存。 -->
+  <script defer src="scripts/data.js?v=20261104-patch-1"></script>
   <script defer src="scripts/core.js?v=20261103-floors-1"></script>
-  <script defer src="scripts/app.js"></script>
+  <!-- old: <script defer src="scripts/app.js"></script> -->
+  <!-- [FIX 2026.11.04] 使用本次小更新资源，避开旧版离线缓存。 -->
+  <script defer src="scripts/dialog-navigation.js?v=20261104-patch-1"></script>
+  <script defer src="scripts/app.js?v=20261104-patch-1"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -194,7 +201,9 @@
         <!-- old: 楼层与不清晰的店名待核对。 -->
         <!-- old: <div class="catalog-note"><span data-icon="info"></span><p>招牌来自实拍照片，部分照片含相邻窗口，暂按招牌区域分组。楼层已按提供的彩框标注确认；不清晰的店名仍待核对。照片不代表此刻正在营业。小食堂已关闭，不参与选择。</p></div> -->
         <!-- [FIX 2026.11.04] 说明招牌复核与仍按照片区域整理的边界。 -->
-        <div class="catalog-note"><span data-icon="info"></span><p>招牌已按原图及两轮人工确认复核，楼层依据彩框标注。部分照片仍含相邻窗口，详情与搜索可查招牌名称。照片不代表此刻正在营业。小食堂已关闭，不参与选择。</p></div>
+        <!-- old: <div class="catalog-note"><span data-icon="info"></span><p>招牌已按原图及两轮人工确认复核，楼层依据彩框标注。部分照片仍含相邻窗口，详情与搜索可查招牌名称。照片不代表此刻正在营业。小食堂已关闭，不参与选择。</p></div> -->
+        <!-- [FIX 2026.11.04] 二楼按独立窗口展示，说明与条目数量同步。 -->
+        <div class="catalog-note"><span data-icon="info"></span><p>招牌已按原图及两轮人工确认复核，楼层依据彩框标注。二楼相邻窗口已分别收录；一楼和三楼部分仍按照片区域整理。照片不代表此刻正在营业。小食堂已关闭，不参与选择。</p></div>
         <!-- old: <p class="inline-hint">图片已去除人物，原先遮挡的局部为修补画面。</p> -->
         <!-- [FIX 2026.11.03] 两张生成失败的照片暂用占位，明确当前状态。 -->
         <p class="inline-hint">图片已去除人物，原先遮挡的局部为修补画面；另两张照片暂显示“图片修补中”。</p>
@@ -214,20 +223,30 @@
         <div class="section-heading"><h2>最近吃过</h2><span class="quiet-label">点击“就吃这家”后记录</span></div><div id="history-list" class="history-list"></div>
         <section class="data-panel"><h2>数据留在你这里</h2><p>收藏、手记、楼层修正和昵称保存在当前浏览器。换设备不会自动同步，清理浏览器数据可能让它们丢失。可以导出备份，或从备份恢复。</p><div class="button-row"><button class="button secondary" id="export-button">导出本机备份</button><label for="import-file" class="button secondary file-label">导入备份</label><input id="import-file" type="file" accept="application/json,.json" class="sr-only"><button class="text-button" id="privacy-button">隐私说明</button></div><p class="inline-hint">备份可能含你的私人手记，请自行保管，不要提交到公开仓库。</p></section>
       </section>
-      <footer class="page-footer">XATUer · 选一家，去吃饭。<span>资料更新于 2026.11.03</span></footer>
+      <!-- old: <footer class="page-footer">XATUer · 选一家，去吃饭。<span>资料更新于 2026.11.03</span></footer> -->
+      <!-- [FIX 2026.11.04] 手机与电脑均提供更新日志入口，资料日期与数据文件保持一致。 -->
+      <footer class="page-footer">XATUer · 选一家，去吃饭。<span><span id="data-updated">资料更新于 2026.11.04</span> · <button class="text-button" data-action="changelog">更新日志</button></span></footer>
     </main>
     <aside class="right-rail" aria-label="觅食公告">
       <section class="rail-card campus-card"><div class="rail-symbol" data-icon="bowl"></div><h2>校园里的<br>每一口日常。</h2><p>从“随便吃点”，<br>到“今天就吃这家”。</p><span class="campus-chip">西安工业大学</span></section>
       <!-- old: 楼层信息正在补全。 -->
       <!-- old: <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 18 组、三楼 11 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section> -->
       <!-- [FIX 2026.11.04] 同步拆分后的楼层分组数量。 -->
-      <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 20 组、三楼 12 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section>
+      <!-- old: <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 20 组、三楼 12 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section> -->
+      <!-- [FIX 2026.11.04] 二楼按独立窗口展示，说明与条目数量同步。 -->
+      <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 34 个窗口、三楼 12 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section>
       <p class="rail-footnote">一个由学生发起的开源小项目。<br>与学校官方无隶属关系。</p>
     </aside>
   </div>
   <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-title"><div class="dialog-top"><span>档口档案</span><button class="icon-button" data-action="close-detail" aria-label="关闭档口详情"><span data-icon="close"></span></button></div><div id="detail-content"></div></dialog>
   <dialog id="draw-dialog" class="draw-dialog" aria-labelledby="draw-title"><div class="dialog-top"><span>今天，就吃这家？</span><button class="icon-button" data-action="close-draw" aria-label="关闭随机结果"><span data-icon="close"></span></button></div><div id="draw-content"></div></dialog>
   <dialog id="privacy-dialog" class="privacy-dialog" aria-labelledby="privacy-title"><div class="dialog-top"><h2 id="privacy-title">隐私说明</h2><button class="icon-button" data-action="close-privacy" aria-label="关闭隐私说明"><span data-icon="close"></span></button></div><p>当前版本不提供注册，不收集学号、手机号、密码或精确位置，不接入统计或广告脚本。</p><p>昵称、收藏、已吃记录、手记草稿和档口修正仅写入本浏览器的本地存储，不会由应用上传到服务器。它们不是加密保险箱，请勿写入密码等敏感资料。</p><p>托管服务可能记录访问所需的网络日志。以后接入账号和公开社区时，需要提供新的隐私说明与数据管理入口。</p><p>导出的备份包含本机记录；导入会在你确认后替换现有记录。当前页面没有批量清空个人记录的按钮。</p></dialog>
+  <!-- [FIX 2026.11.04] 可从页脚查看，手机返回、Esc及关闭按钮均可退出。 -->
+  <dialog id="changelog-dialog" class="privacy-dialog release-notes" aria-labelledby="changelog-title"><div class="dialog-top"><h2 id="changelog-title">更新日志</h2><button class="icon-button" data-action="close-changelog" aria-label="关闭更新日志"><span data-icon="close"></span></button></div>
+    <section><h3>2.0.1 · 返回体验与资料小更新</h3><p>手机返回手势和浏览器返回先关闭详情，再回到原页面；关闭按钮、Esc与遮罩共用返回逻辑。</p><p>二楼相邻窗口分开进入随机池，共34个窗口；补齐更新日志入口，一楼手工水饺增加“饺子”搜索词。正在补充一楼牛肉汤、炒鸡蛋的实拍资料。</p></section>
+    <section><h3>2026.11.04 · 招牌资料修正</h3><p>逐张复核46张原图，按两轮人工确认修正疑字。嘿霸道小面和多味面庄分开，两处误合并已拆开，旧收藏编号保留。</p><p>当时收录46组招牌：一楼14组、二楼20组、三楼12组。相邻窗口的进一步拆分见本次2.0.1更新。</p></section>
+    <section><h3>2026.11.03 · 2.0内测版</h3><p>支持按楼层、种类、收藏随机选餐，同轮不重复；提供本机手记、记录与备份。42张照片完成去人物、2张原本无人、2张暂用修补占位。</p></section>
+  </dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <noscript><p class="noscript">请启用 JavaScript 使用选餐、搜索和本机记录。页面不需要注册。</p></noscript>
 </body>

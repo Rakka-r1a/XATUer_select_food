@@ -4,9 +4,9 @@
 
 西安工业大学校园觅食小工具。选一家，去吃饭。
 
-**[打开网站](https://rakka-r1a.github.io/XATUer_select_food/) · [反馈问题](https://github.com/Rakka-r1a/XATUer_select_food/issues) · [内测指南](docs/TESTING.md)**
+**[打开网站](https://rakka-r1a.github.io/XATUer_select_food/) · [反馈问题](https://github.com/Rakka-r1a/XATUer_select_food/issues) · [内测指南](docs/TESTING.md) · [更新日志](CHANGELOG.md)**
 
-当前版本：**2.0 小范围测试版**。无需注册，手机和电脑浏览器均可使用。
+本次更新：**2.0.1 小范围测试版**，发布记录见更新日志。无需注册，手机和电脑浏览器均可使用。
 
 ## 能做什么
 
@@ -32,11 +32,11 @@
 | 楼层 | 招牌分组 | 实拍照片 |
 | --- | ---: | ---: |
 | 一楼 | 14 | 15 |
-| 二楼 | 20 | 19 |
+| 二楼 | 34 | 19 |
 | 三楼 | 12 | 12 |
-| 合计 | 46 | 46 |
+| 合计 | 60 | 46 |
 
-已依据 46 张原图逐张复核，并按维护者两轮人工确认修正疑字；“嘿霸道小面”和“多味面庄”分别收录，两处误合并照片已拆开。其他分组仍可能包含相邻招牌，详情与搜索可查这些名称，不等同于已核实的独立经营档口。照片不代表此刻正在营业，暂不提供价格、评分或营业时间。
+已依据 46 张原图逐张复核，并按维护者两轮人工确认修正疑字；“嘿霸道小面”和“多味面庄”分别收录，两处误合并照片已拆开。本次小更新进一步按二楼供餐窗口分别收录，冒菜、贵州豆米砂锅、牛肉汤烧饼等各自进入随机池；同一窗口的多种菜品保留在同一条目。一楼和三楼部分仍按照片区域整理，不等同于已核实的独立经营档口。照片不代表此刻正在营业，暂不提供价格、评分或营业时间。
 
 发现错名、错楼层、重复或已关闭的店，欢迎通过 [GitHub Issues](https://github.com/Rakka-r1a/XATUer_select_food/issues) 反馈。说明店名和正确情况即可；无需上传自己的私人备份。
 
@@ -78,6 +78,7 @@ index.html                页面结构；保留 V1 原始代码注释
 styles.css                手机与电脑布局
 scripts/data.js           档口、照片与楼层资料
 scripts/core.js           筛选、抽取与本机数据校验
+scripts/dialog-navigation.js 弹窗返回历史与焦点管理
 scripts/app.js            页面交互与本机记录
 scripts/serve.cjs          本地静态预览服务
 scripts/check.cjs          语法、资源与编码检查

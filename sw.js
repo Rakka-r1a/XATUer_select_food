@@ -5,12 +5,16 @@ const CACHE_PREFIX = `xatuer-${self.registration.scope}-`;
 // const CACHE = `${CACHE_PREFIX}v2-20261103-clean-1`; // old: 旧署名页面的离线版本。
 // const CACHE = `${CACHE_PREFIX}v2-20261104-rakka-1`; // old: 含错误小笼包招牌的资料版本。
 // old: const CACHE = `${CACHE_PREFIX}v2-20261104-xiaolongbao-1`;
-const CACHE = `${CACHE_PREFIX}v2-20261104-sign-audit-1`; // [FIX 2026.11.04] 更新全量招牌复核版本的离线缓存。
+// old: const CACHE = `${CACHE_PREFIX}v2-20261104-sign-audit-1`; // [FIX 2026.11.04] 更新全量招牌复核版本的离线缓存。
+// [FIX 2026.11.04] 刷新返回体验、日志和饺子搜索的小更新资源。
+const CACHE = `${CACHE_PREFIX}v2-20261104-patch-1`;
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js','./scripts/core.js','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 未对资料文件指定版本。
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-floors-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 原图片资料版本。
 // const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261103-clean-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // old: 旧版档口资料入口。
 // old: const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261104-xiaolongbao-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.04] 与页面使用相同的纠错资料版本。
-const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261104-sign-audit-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.04] 与页面使用相同的纠错资料版本。
+// old: const CORE = ['./','./index.html','./styles.css','./scripts/data.js?v=20261104-sign-audit-1','./scripts/core.js?v=20261103-floors-1','./scripts/app.js','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest']; // [FIX 2026.11.04] 与页面使用相同的纠错资料版本。
+// [FIX 2026.11.04] 预缓存清单与页面使用同一套版本。
+const CORE = ['./','./index.html','./styles.css?v=20261104-patch-1','./scripts/data.js?v=20261104-patch-1','./scripts/core.js?v=20261103-floors-1','./scripts/dialog-navigation.js?v=20261104-patch-1','./scripts/app.js?v=20261104-patch-1','./assets/icon.svg','./assets/icon-192.png','./assets/icon-512.png','./manifest.webmanifest'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)));
 });
@@ -25,7 +29,9 @@ self.addEventListener('fetch',event=>{
     event.respondWith(fetch(event.request).catch(()=>caches.match(new URL('./index.html',self.registration.scope).href)));
     return;
   }
-  if (!/^(styles\.css|scripts\/(data|core|app)\.js|assets\/|manifest\.webmanifest)/.test(relative)) return;
+  // old: if (!/^(styles\.css|scripts\/(data|core|app)\.js|assets\/|manifest\.webmanifest)/.test(relative)) return;
+  // [FIX 2026.11.04] 离线也缓存弹窗导航模块。
+  if (!/^(styles\.css|scripts\/(data|core|app|dialog-navigation)\.js|assets\/|manifest\.webmanifest)/.test(relative)) return;
   event.respondWith(caches.open(CACHE).then(async cache=>{
     const cached = await cache.match(event.request);
     if (cached) return cached;
