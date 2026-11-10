@@ -159,7 +159,9 @@
   <!-- old: <script defer src="scripts/app.js"></script> -->
   <!-- [FIX 2026.11.04] 使用本次小更新资源，避开旧版离线缓存。 -->
   <script defer src="scripts/dialog-navigation.js?v=20261104-patch-1"></script>
-  <script defer src="scripts/app.js?v=20261104-patch-1"></script>
+  <!-- old: <script defer src="scripts/app.js?v=20261104-patch-1"></script> -->
+  <!-- [FIX 2026.11.10] 加载新增版权协议入口，避开旧脚本缓存。 -->
+  <script defer src="scripts/app.js?v=20261110-rights-1"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -176,7 +178,9 @@
       <a href="#me" data-nav="me"><span data-icon="user"></span><span>我的</span></a>
       <!-- old: <div class="nav-footer"><p>好好吃饭，<br>也好好生活。</p><a href="https://github.com/M0k1se/XATUer_select_food" target="_blank" rel="noopener">开源项目</a><span>由 M0k1se 发起</span></div> -->
       <!-- [FIX 2026.11.04] 用户已更换 GitHub 名字，同步公开署名与仓库地址。 -->
-      <div class="nav-footer"><p>好好吃饭，<br>也好好生活。</p><a href="https://github.com/Rakka-r1a/XATUer_select_food" target="_blank" rel="noopener">开源项目</a><span>由 Rakka 发起</span></div>
+      <!-- old: <div class="nav-footer"><p>好好吃饭，<br>也好好生活。</p><a href="https://github.com/Rakka-r1a/XATUer_select_food" target="_blank" rel="noopener">开源项目</a><span>由 Rakka 发起</span></div> -->
+      <!-- [FIX 2026.11.10] 按作者要求改为浏览使用许可，不再宣传开源复用。 -->
+      <div class="nav-footer"><p>好好吃饭，<br>也好好生活。</p><a href="https://github.com/Rakka-r1a/XATUer_select_food" target="_blank" rel="noopener">项目仓库</a><span>由 Rakka 发起</span></div>
     </nav>
     <main id="main-content" tabindex="-1">
       <section id="page-home" class="page" aria-labelledby="home-title">
@@ -225,7 +229,9 @@
       </section>
       <!-- old: <footer class="page-footer">XATUer · 选一家，去吃饭。<span>资料更新于 2026.11.03</span></footer> -->
       <!-- [FIX 2026.11.04] 手机与电脑均提供更新日志入口，资料日期与数据文件保持一致。 -->
-      <footer class="page-footer">XATUer · 选一家，去吃饭。<span><span id="data-updated">资料更新于 2026.11.04</span> · <button class="text-button" data-action="changelog">更新日志</button></span></footer>
+      <!-- old: <footer class="page-footer">XATUer · 选一家，去吃饭。<span><span id="data-updated">资料更新于 2026.11.04</span> · <button class="text-button" data-action="changelog">更新日志</button></span></footer> -->
+      <!-- [FIX 2026.11.10] 按作者要求改为浏览使用许可，不再宣传开源复用。 -->
+      <footer class="page-footer">XATUer · 选一家，去吃饭。<span><span id="data-updated">资料更新于 2026.11.04</span> · <button class="text-button" data-action="changelog">更新日志</button> · <button class="text-button" data-action="copyright">版权与使用协议</button></span></footer>
     </main>
     <aside class="right-rail" aria-label="觅食公告">
       <section class="rail-card campus-card"><div class="rail-symbol" data-icon="bowl"></div><h2>校园里的<br>每一口日常。</h2><p>从“随便吃点”，<br>到“今天就吃这家”。</p><span class="campus-chip">西安工业大学</span></section>
@@ -235,7 +241,9 @@
       <!-- old: <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 20 组、三楼 12 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section> -->
       <!-- [FIX 2026.11.04] 二楼按独立窗口展示，说明与条目数量同步。 -->
       <section class="rail-card bulletin"><h2><span class="status-dot"></span>觅食公告</h2><article><span>食堂更新</span><h3>小食堂，暂别啦</h3><p>按已关闭处理，不再进入随机池。</p></article><article><span>档口采集</span><h3>46 张真实照片已收录</h3><p>楼层已确认：一楼 14 组、二楼 34 个窗口、三楼 12 组。</p></article><article><span>下一站</span><h3>学校周边，也想逛逛</h3><p>等资料齐了，再把附近的小店加进来。</p></article></section>
-      <p class="rail-footnote">一个由学生发起的开源小项目。<br>与学校官方无隶属关系。</p>
+      <!-- old: <p class="rail-footnote">一个由学生发起的开源小项目。<br>与学校官方无隶属关系。</p> -->
+      <!-- [FIX 2026.11.10] 按作者要求改为浏览使用许可，不再宣传开源复用。 -->
+      <p class="rail-footnote">© 2026 Rakka · 仅供浏览使用。<br>代码与图片未经许可不得复用。<br>与学校官方无隶属关系。</p>
     </aside>
   </div>
   <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-title"><div class="dialog-top"><span>档口档案</span><button class="icon-button" data-action="close-detail" aria-label="关闭档口详情"><span data-icon="close"></span></button></div><div id="detail-content"></div></dialog>
@@ -243,10 +251,13 @@
   <dialog id="privacy-dialog" class="privacy-dialog" aria-labelledby="privacy-title"><div class="dialog-top"><h2 id="privacy-title">隐私说明</h2><button class="icon-button" data-action="close-privacy" aria-label="关闭隐私说明"><span data-icon="close"></span></button></div><p>当前版本不提供注册，不收集学号、手机号、密码或精确位置，不接入统计或广告脚本。</p><p>昵称、收藏、已吃记录、手记草稿和档口修正仅写入本浏览器的本地存储，不会由应用上传到服务器。它们不是加密保险箱，请勿写入密码等敏感资料。</p><p>托管服务可能记录访问所需的网络日志。以后接入账号和公开社区时，需要提供新的隐私说明与数据管理入口。</p><p>导出的备份包含本机记录；导入会在你确认后替换现有记录。当前页面没有批量清空个人记录的按钮。</p></dialog>
   <!-- [FIX 2026.11.04] 可从页脚查看，手机返回、Esc及关闭按钮均可退出。 -->
   <dialog id="changelog-dialog" class="privacy-dialog release-notes" aria-labelledby="changelog-title"><div class="dialog-top"><h2 id="changelog-title">更新日志</h2><button class="icon-button" data-action="close-changelog" aria-label="关闭更新日志"><span data-icon="close"></span></button></div>
+    <section><h3>2026.11.10 · 版权与使用许可</h3><p>明确仅允许正常浏览和使用官方网页；代码与图片保留所有权利，未经书面许可不得复制复用或改名发布。新增完整协议与站内版权入口；历史授权及法律、平台条款规定的权限依其自身条件判断。</p></section>
     <section><h3>2.0.1 · 返回体验与资料小更新</h3><p>手机返回手势和浏览器返回先关闭详情，再回到原页面；关闭按钮、Esc与遮罩共用返回逻辑。</p><p>二楼相邻窗口分开进入随机池，共34个窗口；补齐更新日志入口，一楼手工水饺增加“饺子”搜索词。正在补充一楼牛肉汤、炒鸡蛋的实拍资料。</p></section>
     <section><h3>2026.11.04 · 招牌资料修正</h3><p>逐张复核46张原图，按两轮人工确认修正疑字。嘿霸道小面和多味面庄分开，两处误合并已拆开，旧收藏编号保留。</p><p>当时收录46组招牌：一楼14组、二楼20组、三楼12组。相邻窗口的进一步拆分见本次2.0.1更新。</p></section>
     <section><h3>2026.11.03 · 2.0内测版</h3><p>支持按楼层、种类、收藏随机选餐，同轮不重复；提供本机手记、记录与备份。42张照片完成去人物、2张原本无人、2张暂用修补占位。</p></section>
   </dialog>
+  <!-- [FIX 2026.11.10] 在网站内明确图片与代码的使用边界；加载不等于复用授权。 -->
+  <dialog id="copyright-dialog" class="privacy-dialog release-notes" aria-labelledby="copyright-title"><div class="dialog-top"><h2 id="copyright-title">版权与使用协议</h2><button class="icon-button" data-action="close-copyright" aria-label="关闭版权与使用协议"><span data-icon="close"></span></button></div><p>© 2026 Rakka 及相应权利人。保留所有权利。本声明自2026年11月10日发布本声明的版本起适用。</p><section><h3>允许正常浏览与使用</h3><p>可以访问官方网页、查看图片、查询和随机选餐、使用本机收藏与手记、导出自己的个人记录。浏览器为正常显示和离线使用所需的加载、执行与缓存也在此范围内。</p></section><section><h3>代码与图片不得擅自复用</h3><p>未经另行书面许可，不得复制或提取受保护的代码、图片，制作改名版本、镜像、其他网站或应用；不得转载、打包分发、出售或盗链使用。不得移除署名或冒称原创。署名不等于授权，注明来源也不能代替许可。</p></section><section><h3>权利边界</h3><p>法律规定的例外、第三方材料原有许可、此前有效授权以及GitHub平台条款已经授予的权限不受本声明排除；历史授权是否适用及是否满足署名条件，应依当时版本和事实判断。本声明不主张对普通想法或客观事实的专有权。</p><p>公开展示不等于放弃版权；本声明也不是防下载措施。</p><p><a class="text-link" href="https://github.com/Rakka-r1a/XATUer_select_food/blob/main/LICENSE.md" target="_blank" rel="noopener">阅读完整使用协议</a> · <a class="text-link" href="https://github.com/Rakka-r1a" target="_blank" rel="noopener">联系权利人申请许可</a></p></section></dialog>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <noscript><p class="noscript">请启用 JavaScript 使用选餐、搜索和本机记录。页面不需要注册。</p></noscript>
 </body>

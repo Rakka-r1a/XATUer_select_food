@@ -2,6 +2,7 @@
   "name": "xatuer-select-food",
   "version": "2.0.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE.md",
   "description": "西安工业大学校园觅食工具与社区本机体验版",
   "scripts": {
     "start": "node scripts/serve.cjs",

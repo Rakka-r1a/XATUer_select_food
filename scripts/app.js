@@ -243,6 +243,9 @@
       case 'draw-detail': openDetail(id); break; // [FIX 2026.11.04] 切换弹窗复用同一条历史。
       case 'changelog': showDialog($('changelog-dialog')); break;
       case 'close-changelog': closeDialog($('changelog-dialog')); break;
+      // [FIX 2026.11.10] 版权说明复用已有弹窗返回逻辑。
+      case 'copyright': showDialog($('copyright-dialog')); break;
+      case 'close-copyright': closeDialog($('copyright-dialog')); break;
       // old: 在 hashchange 触发前向隐藏页面设置焦点，浏览器可能忽略。
       // old: case 'write-note': closeDialog($('detail-dialog')); location.hash = 'community'; route(); $('note-stall').value = id; $('note-text').focus(); break;
       case 'write-note': await closeDialog($('detail-dialog')); location.hash = 'community'; route(); $('note-stall').value = id; $('note-text').focus(); break; // [FIX 2026.11.04] 历史回退完成后才跳转，避免写手记被退回。
