@@ -4,9 +4,11 @@
 
 西安工业大学校园觅食小工具。选一家，去吃饭。
 
+**仅授权正常浏览和使用官方网页。代码与图片保留所有权利，未经书面许可不得复制复用、改名部署或转载；署名不等于授权。完整条款见 [LICENSE.md](LICENSE.md)。**
+
 **[打开网站](https://rakka-r1a.github.io/XATUer_select_food/) · [反馈问题](https://github.com/Rakka-r1a/XATUer_select_food/issues) · [内测指南](docs/TESTING.md) · [更新日志](CHANGELOG.md)**
 
-本次更新：**2.0.1 小范围测试版**，发布记录见更新日志。无需注册，手机和电脑浏览器均可使用。
+本次更新：**2026-11-10 版权声明更新**，发布记录见更新日志。无需注册，手机和电脑浏览器均可使用。
 
 ## 能做什么
 
@@ -52,15 +54,11 @@
 
 这轮重点测试楼层筛选、抽取范围、照片资料、手机操作和刷新后的记录保留。具体步骤见 [内测指南](docs/TESTING.md)。
 
-## 本地运行
+## 官方访问与维护者说明
 
-需要 **Node.js 20 或更新版本**。项目没有第三方 npm 依赖。
+普通访问者请使用上方官方网页入口。仓库公开可见不代表授权复用或独立部署。以下说明仅面向权利人和已另行获得许可的维护者，不构成复制授权。
 
-```sh
-git clone https://github.com/Rakka-r1a/XATUer_select_food.git
-cd XATUer_select_food
-npm start
-```
+维护需要 **Node.js 20 或更新版本**，项目没有第三方 npm 依赖。具备维护权限后，使用 `npm start` 启动本机预览。
 
 打开 [http://127.0.0.1:4173](http://127.0.0.1:4173)。默认只监听本机。也可直接打开 `index.html` 使用主要功能，但 PWA 和离线缓存需要 localhost 或 HTTPS。
 
@@ -100,9 +98,13 @@ docs/TESTING.md           小范围测试指南
 
 先依据内测反馈修正档口资料和选餐体验，再逐步考虑学校周边小吃、真实账号、公开评价与校园动态。多人社区需要后端及相应的数据管理能力；当前版本不包含这些功能，也尚未提供 APK。
 
-本项目由 **[Rakka](https://github.com/Rakka-r1a)** 发起，与学校官方无隶属关系。复用时请保留作者署名并注明 [项目来源](https://github.com/Rakka-r1a/XATUer_select_food)。
+## 版权与使用许可
 
-<!-- old: 原项目介绍，保留原作者的复用与署名要求。
+本项目由 **[Rakka](https://github.com/Rakka-r1a)** 发起，与学校官方无隶属关系。当前版本不再提供开源复用授权，代码和摄影图片等受保护内容均适用 [浏览使用许可与版权声明](LICENSE.md)。正常浏览网页、使用选餐功能和导出自己的本机记录不受影响；将代码或图片用于其他网站、应用或仓库，需要另行取得书面许可。
+
+历史版本曾要求复用者署名并注明来源；其是否适用及是否满足条件须按当时的版本判断。下方保留的旧介绍只是历史记录，不构成对当前版本的新授权。
+
+<!-- old: 2026-11-10前的历史介绍，不构成对当前版本的授权；历史许可是否有效及条件是否满足需另行判断。
 # XATUer-s_select_food
 Help xatu's students and teachers to select thier breakfarst or lunch or dinner. you can copy it,but you have to credit the sourse. If you habe any suggestions,please let me konw.
 -->
