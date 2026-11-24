@@ -3,7 +3,9 @@ const http = require('node:http');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const root = path.resolve(__dirname,'..');
-const types = { '.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webmanifest':'application/manifest+json' };
+// old: const types = { '.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webmanifest':'application/manifest+json' };
+// [FIX 2026.11.25] 公开点评JSON使用正确的响应类型。
+const types = { '.json':'application/json; charset=utf-8','.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webmanifest':'application/manifest+json' };
 function createServer() {
   return http.createServer(async(req,res)=>{
     try {
@@ -16,7 +18,9 @@ function createServer() {
       const relative = path.relative(root,filename);
       // old: if (relative.startsWith('..') || path.isAbsolute(relative) || relative.split(path.sep).some(part=>part.startsWith('.')) || !/^(index\.html|styles\.css|sw\.js|manifest\.webmanifest|assets[\\/]|scripts[\\/](app|core|data)\.js$)/.test(relative)) {
       // [FIX 2026.11.04] 仅增加公开弹窗导航模块的本机访问许可。
-      if (relative.startsWith('..') || path.isAbsolute(relative) || relative.split(path.sep).some(part=>part.startsWith('.')) || !/^(index\.html|styles\.css|sw\.js|manifest\.webmanifest|assets[\\/]|scripts[\\/](app|core|data|dialog-navigation)\.js$)/.test(relative)) {
+      // old: if (relative.startsWith('..') || path.isAbsolute(relative) || relative.split(path.sep).some(part=>part.startsWith('.')) || !/^(index\.html|styles\.css|sw\.js|manifest\.webmanifest|assets[\\/]|scripts[\\/](app|core|data|dialog-navigation)\.js$)/.test(relative)) {
+      // [FIX 2026.11.25] 仅增加公开功能模块的访问许可。
+      if (relative.startsWith('..') || path.isAbsolute(relative) || relative.split(path.sep).some(part=>part.startsWith('.')) || !/^(index\.html|styles\.css|sw\.js|manifest\.webmanifest|assets[\\/]|scripts[\\/](app|core|data|dialog-navigation|public-features)\.js$)/.test(relative)) {
         res.writeHead(404); res.end('Not found'); return;
       }
       const content = await fs.readFile(filename);

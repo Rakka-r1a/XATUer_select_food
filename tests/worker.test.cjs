@@ -57,3 +57,12 @@ test('升级只清理同一项目的旧缓存，不影响同域其他应用',asy
   assert.ok(w.cachesData.has('another-app-v1'));
   assert.ok(w.cachesData.has('xatuer-https://example.test/other/-v1'));
 });
+
+test('作者点评优先联网更新，断网后才使用已读取快照',async()=>{
+  const w=worker();await w.lifecycle('install');
+  const name=(await w.caches.keys())[0],cache=await w.caches.open(name);
+  await cache.put('assets/author-reviews.json',new Response('old-review'));
+  const latest=await (await w.request('assets/author-reviews.json')).text();
+  assert.match(latest,/network:/);assert.notEqual(latest,'old-review');
+  w.setOffline();assert.equal(await (await w.request('assets/author-reviews.json')).text(),latest);
+});
