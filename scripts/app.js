@@ -3,6 +3,13 @@
   'use strict';
   const C = window.FoodCore;
   const D = window.FoodData;
+  // [FIX 2026.11.25] 作者身份与公开点评独立于本机昵称、手记。
+  const P = window.FoodPublic;
+  let authorReviews = [];
+  let authorReviewsStatus = 'idle';
+  let authorReviewsError = '';
+  let authorReviewsSyncedAt = '';
+  let authorReviewsTask = null;
   const $ = id => document.getElementById(id);
   const icons = {
     bowl: '<path d="M3 11h18c-1 6-4 9-9 9s-8-3-9-9Z"/><path d="M8 22h8M8 3v4m4-6v6m4-4v4"/>',
@@ -171,6 +178,42 @@
       // [FIX 2026.11.04] 由弹窗导航在历史返回结束后恢复焦点，切换弹窗时不抢焦点。
     });
   }
+  // [FIX 2026.11.25] 只将已核验作者账号发布的内容作为公开点评，所有正文按纯文本转义。
+  function authorReviewText(review) {
+    return '<p class="author-review-text">'+escape(review.text)+'</p><p class="inline-hint">更新于 '+escape(dateLabel(review.time))+' · <a class="text-link" href="'+review.url+'" target="_blank" rel="noopener noreferrer">查看原文 / 作者编辑或撤下</a></p>';
+  }
+  function authorReviewSection(id) {
+    const stall = activeStall(id);
+    const review = authorReviews.find(row=>row.stallId===id);
+    const message = authorReviewsStatus==='error' ? authorReviewsError : ['idle','loading'].includes(authorReviewsStatus) ? '正在读取作者点评…' : '作者还没有点评这家。';
+    return '<section class="author-review-section detail-body"><div class="section-heading compact"><h3>作者点评</h3><span class="pill">Rakka</span></div>'+(review?authorReviewText(review)+(authorReviewsStatus==='error'?'<p class="inline-hint">当前为本次会话上次读取的点评，'+escape(authorReviewsError)+'</p>':''):'<p class="inline-hint">'+escape(message)+'</p>')+'<div class="button-row"><a class="text-link" href="'+escape(review ? review.url : P.newReviewURL(stall))+'" target="_blank" rel="noopener noreferrer">'+(review?'作者编辑点评（GitHub登录）':'作者写点评（GitHub登录）')+'</a><button class="text-button" data-action="refresh-author-reviews">刷新点评</button></div><p class="inline-hint">只有作者账号发布的点评会展示；访客无需登录。请保留发布页预填的档口标记，在标记下写点评；等待自动同步后刷新。</p></section>';
+  }
+  function renderAuthorFeed() {
+    const target = $('author-reviews-feed');
+    if (!target) return;
+    if (!authorReviews.length) {
+      const message = authorReviewsStatus==='error' ? authorReviewsError : ['idle','loading'].includes(authorReviewsStatus) ? '正在读取作者的公开点评…' : '作者还没有发布点评。可以先逛档口，看看想吃哪家。';
+      target.innerHTML='<p class="inline-hint">'+escape(message)+'</p>';
+      return;
+    }
+    target.innerHTML=(authorReviewsSyncedAt?'<p class="inline-hint">上次同步：'+escape(dateLabel(Date.parse(authorReviewsSyncedAt)))+'</p>':'')+(authorReviewsStatus==='error'?'<p class="inline-hint">当前为本次会话上次读取的点评，'+escape(authorReviewsError)+'</p>':'')+authorReviews.slice(0,10).map(review=>'<article class="author-review-card"><button class="stall-title" data-action="detail" data-id="'+review.stallId+'">'+escape(activeStall(review.stallId).name)+'</button>'+authorReviewText(review)+'</article>').join('');
+  }
+  function loadAuthorReviews(force = false) {
+    if (authorReviewsTask) return authorReviewsTask;
+    if (!force && authorReviewsStatus==='ready') return Promise.resolve();
+    authorReviewsStatus='loading'; authorReviewsError=''; renderAuthorFeed();
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),10000);
+    authorReviewsTask=P.fetchAuthorReviews(window.fetch.bind(window),D.stalls.map(stall=>stall.id),controller.signal).then(rows=>{
+      authorReviews=rows.reviews; authorReviewsSyncedAt=rows.syncedAt; authorReviewsStatus='ready';
+    }).catch(error=>{
+      authorReviewsStatus='error'; authorReviewsError=error.name==='AbortError'?'作者点评读取超时，可稍后刷新。':error.message || '作者点评暂时无法加载，可稍后刷新。';
+    }).finally(()=>{
+      clearTimeout(timer); authorReviewsTask=null; renderAuthorFeed();
+      if (currentDetail) renderDetail(currentDetail);
+    });
+    return authorReviewsTask;
+  }
   function renderDetail(id) {
     const stall = activeStall(id);
     if (!stall) return;
@@ -180,6 +223,8 @@
     const localNotes = state.notes.filter(note => note.stallId === id);
     const saved = state.favorites.includes(id);
     $('detail-content').innerHTML = `<img id="detail-photo" class="detail-image" src="${stall.photos[0]}" alt="${escape(stall.name)}实拍照片">${stall.photos.length>1?`<div class="detail-thumbs">${stall.photos.map((photo,index)=>`<button data-action="photo" data-photo="${photo}" aria-label="查看第${index+1}张实拍"><img src="${photo}" alt="第${index+1}个角度"></button>`).join('')}</div>`:''}<div class="detail-body"><div class="detail-heading"><h2 id="detail-title">${escape(stall.name)}</h2><button class="button secondary small" data-action="favorite" data-id="${id}" aria-pressed="${saved}">${svg('heart')}${saved?'已收藏':'收藏'}</button></div><p class="detail-location">大食堂 / ${C.floorLabel(stall.floor)} / ${escape(stall.category)}</p><div class="detail-signs">照片中的招牌：${escape(stall.signs)}</div><p class="inline-hint">${stall.status==='closed'?'本机已标记关闭，不参与随机。':'按照片收录，不代表此刻正在营业。'}${stall.needsReview?' 该组名称需要进一步核对。':''} 暂不提供未经确认的价格、评分与营业时间。</p><div class="button-row"><button class="button primary" data-action="choose-direct" data-id="${id}" ${stall.status==='closed'?'disabled':''}>就吃这家</button><button class="button secondary" data-action="write-note" data-id="${id}">记一笔</button></div><details><summary>帮这份资料补充信息（仅本机）</summary><form id="correction-form" class="correction-form"><input type="hidden" name="stallId" value="${id}"><label>招牌名称<input name="name" value="${escape(stall.name)}" maxlength="50" required></label><div class="correction-fields"><label>楼层<select name="floor"><option value="">待确认</option>${[1,2,3].map(n=>`<option value="${n}" ${stall.floor===n?'selected':''}>${n} 楼</option>`).join('')}</select></label><label>本机选择状态<select name="status"><option value="listed" ${stall.status!=='closed'?'selected':''}>保留在随机池</option><option value="closed" ${stall.status==='closed'?'selected':''}>已关闭 / 不再抽取</option></select></label></div><p class="inline-hint">资料修正只影响本浏览器。可在“我的”导出备份，之后用于核对公共档口表。</p><button class="button secondary" type="submit">保存本机修正</button></form></details><section class="detail-notes"><h3>我对这家的手记</h3>${localNotes.length?localNotes.map(note=>`<p class="detail-note">${escape(note.text)}</p>`).join(''):'<p class="inline-hint">还没有相关手记，吃完回来记一笔吧。</p>'}</section></div>`;
+    // [FIX 2026.11.25] 公开作者点评与自己的本机手记分别展示。
+    $('detail-content').insertAdjacentHTML('beforeend',authorReviewSection(id));
   }
   function openDetail(id) { renderDetail(id); showDialog($('detail-dialog')); }
   function beginDraw() {
@@ -244,6 +289,12 @@
       case 'changelog': showDialog($('changelog-dialog')); break;
       case 'close-changelog': closeDialog($('changelog-dialog')); break;
       // [FIX 2026.11.10] 版权说明复用已有弹窗返回逻辑。
+      // [FIX 2026.11.25] 公开点评刷新和作者联系方式。
+      case 'refresh-author-reviews': void loadAuthorReviews(true); break;
+      case 'copy-qq':
+        try { await navigator.clipboard.writeText(P.author.qq); toast('作者QQ已复制：'+P.author.qq); }
+        catch (_) { toast('作者QQ：'+P.author.qq+'，可以长按号码复制。'); }
+        break;
       case 'copyright': showDialog($('copyright-dialog')); break;
       case 'close-copyright': closeDialog($('copyright-dialog')); break;
       // old: 在 hashchange 触发前向隐藏页面设置焦点，浏览器可能忽略。
@@ -332,13 +383,17 @@
     installPrompt=null; $('install-button').hidden=true;
   });
   window.addEventListener('appinstalled',()=>{ $('install-button').hidden=true; });
-  function updateConnection() { $('connection-status').textContent = navigator.onLine ? '本机体验版' : '离线模式'; }
+  // old: function updateConnection() { $('connection-status').textContent = navigator.onLine ? '本机体验版' : '离线模式'; }
+  function updateConnection() { $('connection-status').textContent = navigator.onLine ? '在线模式' : '离线模式'; } // [FIX 2026.11.25] 现在同时提供公开作者点评。
   window.addEventListener('online',updateConnection); window.addEventListener('offline',updateConnection);
   const hour = new Date().getHours();
   $('greeting').textContent = hour<10?'早上好，吃点好的再出发':hour<14?'到饭点了，今天想吃什么':hour<18?'下午好，给晚饭留点期待':'忙了一天，好好吃顿饭吧';
   // [FIX 2026.11.04] 页脚随资料日期更新，避免仍显示旧日期。
   $('data-updated').textContent = `资料更新于 ${D.updatedAt.replaceAll('-','.')}`;
   hydrateIcons(); refresh(); route(); updateConnection();
+  // [FIX 2026.11.25] 公开服务不接收收藏、手记或昵称。
+  P.initPageViews(window,document);
+  void loadAuthorReviews();
   if (storageWarning) toast(storageWarning);
   if ('serviceWorker' in navigator && ['https:','http:'].includes(location.protocol)) {
     window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{

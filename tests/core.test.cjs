@@ -16,7 +16,8 @@ test('用户彩框标注完整覆盖三层，合并照片无楼层冲突，真�
   const floorCounts = [1,2,3].map(floor=>C.filterStalls(D.stalls,{floor:String(floor)}).length);
   // old: assert.deepEqual(floorCounts,[14,18,11]);
   // old: assert.deepEqual(floorCounts,[14,20,12]);
-  assert.deepEqual(floorCounts,[14,34,12]); // [FIX 2026.11.04] 二楼相邻窗口分别收录，不再作为一整排抽取。
+  // old: assert.deepEqual(floorCounts,[14,34,12]); // [FIX 2026.11.04] 二楼相邻窗口分别收录，不再作为一整排抽取。
+  assert.deepEqual(floorCounts,[17,34,12]); // [FIX 2026.11.25] 新照片确认的四个一楼窗口分别计入。
   assert.equal(C.filterStalls(D.stalls,{floor:'unknown'}).length,0);
   for (const stall of D.stalls) {
     for (const photo of stall.photos) {
